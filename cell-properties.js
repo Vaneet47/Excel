@@ -14,6 +14,9 @@ for (let i = 0; i < rows; i++) {
       fontSize: '14',
       fontColor: '#000000',
       BGcolor: '#ecf0f1',
+      formula: '',
+      value: '',
+      children: [],
     };
 
     sheetRow.push(cellProp);
@@ -36,13 +39,14 @@ let leftAlign = alignment[0];
 let centerAlign = alignment[1];
 let rightAlign = alignment[2];
 
+let formulaBar = document.querySelector('.formula-bar');
+
 //
 let activeColorProp = '#d1d8e0';
 let inactiveColorProp = '#ecf0f1';
 
 // using addressBar to identify the cell row and col
-const identifyCurrentCell = () => {
-  let address = addressBar.value; // addressBar already defined in grid.js
+const identifyCurrentCell = (address) => {
   let colCharacter = address[0];
   let rowOneBased = Number(address.slice(1));
   let col = colCharacter.charCodeAt(0) - 65;
@@ -51,8 +55,8 @@ const identifyCurrentCell = () => {
 };
 
 // get current active cell and corresponding cell properties
-const activeCell = () => {
-  const [row, col] = identifyCurrentCell();
+const getCellAndCellProp = (address) => {
+  const [row, col] = identifyCurrentCell(address);
   let cell = document.querySelector(`.cell[rowId="${row}"][columnId="${col}"]`);
   let cellProp = sheetDB[row][col];
   return [cell, cellProp];
@@ -63,7 +67,8 @@ let cells = document.querySelectorAll('.cell');
 
 cells.forEach((singlCell) => {
   singlCell.addEventListener('click', (e) => {
-    const [cell, cellProp] = activeCell();
+    let address = addressBar.value; // addressBar already defined in grid.js
+    const [cell, cellProp] = getCellAndCellProp(address);
 
     // bold
     cell.style.fontWeight = cellProp.bold ? 'bold' : 'normal'; // UI change
@@ -116,12 +121,17 @@ cells.forEach((singlCell) => {
         rightAlign.style.backgroundColor = inactiveColorProp;
         break;
     }
+
+    formulaBar.value = cellProp.formula;
+
+    // cell.value = cellProp.value;
   });
 });
 
 // set UI on event
 bold.addEventListener('click', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.bold = !cellProp.bold; // data change
   cell.style.fontWeight = cellProp.bold ? 'bold' : 'normal'; // UI change
   bold.style.backgroundColor = cellProp.bold
@@ -130,7 +140,8 @@ bold.addEventListener('click', (e) => {
 });
 
 italic.addEventListener('click', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.italic = !cellProp.italic; // data change
   cell.style.fontStyle = cellProp.italic ? 'italic' : 'normal'; // UI change
   italic.style.backgroundColor = cellProp.italic
@@ -139,7 +150,8 @@ italic.addEventListener('click', (e) => {
 });
 
 underline.addEventListener('click', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.underline = !cellProp.underline; // data change
   cell.style.textDecoration = cellProp.underline ? 'underline' : 'none'; // UI change
   underline.style.backgroundColor = cellProp.underline
@@ -149,32 +161,37 @@ underline.addEventListener('click', (e) => {
 
 // fontSize is a select item
 fontSize.addEventListener('change', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.fontSize = fontSize.value; // Data change in db
   cell.style.fontSize = cellProp.fontSize + 'px'; // UI change
 });
 
 fontFamily.addEventListener('change', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.fontFamily = fontFamily.value; // Data change in db
   cell.style.fontFamily = cellProp.fontFamily; // UI change
 });
 
 fontColor.addEventListener('change', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.fontColor = fontColor.value;
   cell.style.color = cellProp.fontColor;
 });
 
 BGcolor.addEventListener('change', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.BGcolor = BGcolor.value;
   cell.style.backgroundColor = cellProp.BGcolor;
 });
 
 /// alignment
 leftAlign.addEventListener('click', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.alignment = 'left';
   cell.style.justifyContent = cellProp.alignment;
 
@@ -184,7 +201,8 @@ leftAlign.addEventListener('click', (e) => {
 });
 
 rightAlign.addEventListener('click', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.alignment = 'right';
   cell.style.justifyContent = cellProp.alignment;
 
@@ -194,7 +212,8 @@ rightAlign.addEventListener('click', (e) => {
 });
 
 centerAlign.addEventListener('click', (e) => {
-  let [cell, cellProp] = activeCell();
+  let address = addressBar.value; // addressBar already defined in grid.js
+  const [cell, cellProp] = getCellAndCellProp(address);
   cellProp.alignment = 'center';
   cell.style.justifyContent = cellProp.alignment;
 
