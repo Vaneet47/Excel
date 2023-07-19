@@ -29,7 +29,14 @@ for (let i = 0; i < rows; i++) {
     let gridCell = document.createElement('div');
     gridCell.setAttribute('class', 'cell');
     gridCell.setAttribute('contenteditable', 'true');
-    addListenerForAddressBarDisplay(gridCell, i + 1, j);
+    gridCell.setAttribute('spellcheck', 'false');
+    // gridCell.setAttribute('overflow', 'hidden');
+
+    // for cell and storage identification
+    gridCell.setAttribute('rowId', i);
+    gridCell.setAttribute('columnId', j);
+
+    addListenerForAddressBarDisplay(gridCell, i, j);
     gridCellRow.appendChild(gridCell);
   }
   cellsCont.appendChild(gridCellRow);
@@ -39,8 +46,15 @@ let addressBar = document.querySelector('.address-bar');
 
 function addListenerForAddressBarDisplay(cell, i, j) {
   cell.addEventListener('click', () => {
-    let char = String.fromCharCode(65 + j);
-    let res = char + i;
+    let rowId = i + 1;
+    let colId = String.fromCharCode(65 + j);
+    let res = colId + rowId;
     addressBar.value = res;
   });
 }
+
+// click first cell by default via dom
+// query selector will give the first element it finds
+let firstCell = document.querySelector('.cell');
+
+firstCell.click();
