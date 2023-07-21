@@ -39,12 +39,12 @@ function isGraphCyclic(graphComponentMatrix) {
           visited,
           dfsVisited
         );
-        if (res) return true;
+        if (res) return [i, j];
       }
     }
   }
 
-  return false;
+  return null;
 }
 
 // Start -> visited(true); dfsVisited(true)

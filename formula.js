@@ -26,7 +26,7 @@ const updateChildren = (cellProp) => {
   }
 };
 
-formulaBar.addEventListener('keydown', (e) => {
+formulaBar.addEventListener('keydown', async (e) => {
   let inputFormula = formulaBar.value;
   if (e.key === 'Enter' && inputFormula) {
     const [childCell, childCellProp] = getCellAndCellProp(addressBar.value);
@@ -36,9 +36,19 @@ formulaBar.addEventListener('keydown', (e) => {
     // addressBar.value -> child component
     addChildToGraphComponent(inputFormula, addressBar.value);
     // check formula is cyclic or not, if not cyclic; then only evaluate
-    let isCyclic = isGraphCyclic(graphComponentMatrix);
-    if (isCyclic) {
-      alert('Your formula is cyclic');
+    let cycleSource = isGraphCyclic(graphComponentMatrix);
+    if (cycleSource) {
+      // alert('Your formula is cyclic');
+      let response = confirm(
+        'Your formula is cyclic. Do you want to trace your path?'
+      );
+      while (response) {
+        await isGraphCyclicTracePath(graphComponentMatrix, cycleSource);
+        response = confirm(
+          'Your formula is cyclic. Do you want to trace your path?'
+        );
+      }
+
       removeChildFromGraphComponent(inputFormula, addressBar.value);
       return;
     }
