@@ -29,14 +29,26 @@ const updateChildren = (cellProp) => {
 formulaBar.addEventListener('keydown', (e) => {
   let inputFormula = formulaBar.value;
   if (e.key === 'Enter' && inputFormula) {
-    let evaluatedValue = evaluate(inputFormula);
     const [childCell, childCellProp] = getCellAndCellProp(addressBar.value);
+
+    // establish a relationship in graph component
+    // inputFormula -> to find the parents
+    // addressBar.value -> child component
+    addChildToGraphComponent(inputFormula, addressBar.value);
+    // check formula is cyclic or not, if not cyclic; then only evaluate
+    let isCyclic = isGraphCyclic(graphComponentMatrix);
+    if (isCyclic) {
+      alert('Your formula is cyclic');
+      removeChildFromGraphComponent(inputFormula, addressBar.value);
+      return;
+    }
 
     if (inputFormula !== childCellProp.formula) {
       removeChildFromParents(inputFormula);
     }
+    let evaluatedValue = evaluate(inputFormula);
 
-    // establish a relationship
+    // establish a relationship add children in parent cell props
     addChildrenToParents(inputFormula);
 
     childCell.innerText = evaluatedValue; // UI
@@ -45,6 +57,32 @@ formulaBar.addEventListener('keydown', (e) => {
     updateChildren(childCellProp);
   }
 });
+
+function removeChildFromGraphComponent(formula, childAddress) {
+  formula = formula.split(' ');
+  const [row, col] = identifyCurrentCell(childAddress);
+  for (let i = 0; i < formula.length; i++) {
+    let ascii = formula[i].charCodeAt(0);
+    if (ascii >= 65 && ascii <= 90) {
+      const [parentRow, parentCol] = identifyCurrentCell(formula[i]);
+      graphComponentMatrix[parentRow][parentCol].pop();
+    }
+  }
+}
+
+function addChildToGraphComponent(formula, childAddress) {
+  const [row, col] = identifyCurrentCell(childAddress);
+  formula = formula.split(' ');
+  console.log(formula);
+  for (let i = 0; i < formula.length; i++) {
+    console.log(formula[i]);
+    let ascii = formula[i].charCodeAt(0);
+    if (ascii >= 65 && ascii <= 90) {
+      const [parentRow, parentCol] = identifyCurrentCell(formula[i]);
+      graphComponentMatrix[parentRow][parentCol].push([row, col]);
+    }
+  }
+}
 
 const evaluate = (inputFormula) => {
   inputFormula = inputFormula.split(' ');
