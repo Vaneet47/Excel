@@ -2,7 +2,7 @@ let sheetFolderCont = document.querySelector('.sheets-folder-cont');
 
 let addSheetBtn = document.querySelector('.sheet-add-icon');
 
-let activeSheetColor = '#ced6e0'
+let activeSheetColor = '#ced6e0';
 
 addSheetBtn.addEventListener('click', (e) => {
   let newSheet = document.createElement('div');
@@ -15,6 +15,7 @@ addSheetBtn.addEventListener('click', (e) => {
     allSheetFolders.length + 1
   }</div>`;
   sheetFolderCont.appendChild(newSheet);
+  newSheet.scrollIntoView();
 
   sheetContainerDb();
   componentMatrixContainerDb();
