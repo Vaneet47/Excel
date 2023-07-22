@@ -18,8 +18,18 @@ body {
 }
 
 .page-action {
-  margin: 0.5rem;
+  width: 4rem;
+  /* text-align: center; */
   color: #f1f2f6;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-page {
+  background-color: #f1f2f6;
+  color: #218c74;
 }
 
 .cellprop-actions-cont {
