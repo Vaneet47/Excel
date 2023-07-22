@@ -52,9 +52,3 @@ function addListenerForAddressBarDisplay(cell, i, j) {
     addressBar.value = res;
   });
 }
-
-// click first cell by default via dom
-// query selector will give the first element it finds
-let firstCell = document.querySelector('.cell');
-
-firstCell.click();

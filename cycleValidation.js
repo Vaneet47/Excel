@@ -1,14 +1,15 @@
 // Storage -> 2D matrix to store the relationship
+let componentMatrixContainer = [];
 let graphComponentMatrix = [];
 
-for (let i = 0; i < rows; i++) {
-  let row = [];
-  for (let j = 0; j < columns; j++) {
-    // why array -> more than 1 child relationship
-    row.push([]);
-  }
-  graphComponentMatrix.push(row);
-}
+// for (let i = 0; i < rows; i++) {
+//   let row = [];
+//   for (let j = 0; j < columns; j++) {
+//     // why array -> more than 1 child relationship
+//     row.push([]);
+//   }
+//   graphComponentMatrix.push(row);
+// }
 
 function isGraphCyclic(graphComponentMatrix) {
   // dependency - visited, dfsVisited (2D array)

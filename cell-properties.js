@@ -1,28 +1,33 @@
 // Storage
 // rows: anything defined in grid.js will be accessible here.
+let sheetContainer = [];
 let sheetDB = [];
+{
+  let addSheetBtn = document.querySelector('.sheet-add-icon');
 
-for (let i = 0; i < rows; i++) {
-  let sheetRow = [];
-  for (let j = 0; j < columns; j++) {
-    let cellProp = {
-      bold: false,
-      italic: false,
-      underline: false,
-      alignment: 'left',
-      fontFamily: 'sans-serif',
-      fontSize: '14',
-      fontColor: '#000000',
-      BGcolor: '#ecf0f1',
-      formula: '',
-      value: '',
-      children: [],
-    };
-
-    sheetRow.push(cellProp);
-  }
-  sheetDB.push(sheetRow);
+  addSheetBtn.click();
 }
+// for (let i = 0; i < rows; i++) {
+//   let sheetRow = [];
+//   for (let j = 0; j < columns; j++) {
+//     let cellProp = {
+//       bold: false,
+//       italic: false,
+//       underline: false,
+//       alignment: 'left',
+//       fontFamily: 'sans-serif',
+//       fontSize: '14',
+//       fontColor: '#000000',
+//       BGcolor: '#ecf0f1',
+//       formula: '',
+//       value: '',
+//       children: [],
+//     };
+
+//     sheetRow.push(cellProp);
+//   }
+//   sheetDB.push(sheetRow);
+// }
 
 // selector for cell properties
 let bold = document.querySelector('.bold');
@@ -124,7 +129,7 @@ cells.forEach((singlCell) => {
 
     formulaBar.value = cellProp.formula;
 
-    // cell.value = cellProp.value;
+    cell.innerText = cellProp.value;
   });
 });
 

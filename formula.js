@@ -83,9 +83,7 @@ function removeChildFromGraphComponent(formula, childAddress) {
 function addChildToGraphComponent(formula, childAddress) {
   const [row, col] = identifyCurrentCell(childAddress);
   formula = formula.split(' ');
-  console.log(formula);
   for (let i = 0; i < formula.length; i++) {
-    console.log(formula[i]);
     let ascii = formula[i].charCodeAt(0);
     if (ascii >= 65 && ascii <= 90) {
       const [parentRow, parentCol] = identifyCurrentCell(formula[i]);
